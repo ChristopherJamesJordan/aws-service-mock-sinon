@@ -40,3 +40,7 @@ you write:
 ### How does it actually work?
 
 It stubs out AWS.Request.send, which *is* available. That stub then returns a mock AWS.Response object with the return value you have provided. This idea was copied from [fakeaws](https://github.com/k-kinzal/fakemock), which works great except that I couldn't find a way to call verification methods on stubbed code, which this allows you to do.
+
+### Credits
+
+This was originally forked from [mock-aws-sinon](https://github.com/gdnmobilelab/mock-aws-sinon), but was updated to use the latest dependency versions and functionally overhauled to add new features (breaking compared to the original source).
