@@ -1,11 +1,19 @@
 /**
  * AWS Service Mock Module tests
  */
-const { createAwsMock, getAwsMock } = require('../awsServiceMock');
 const AWS = require('aws-sdk');
 const assert = require('assert');
+const { createAwsMock,
+  getAwsMock, deleteAwsMock } = require('../awsServiceMock');
 
 describe('#awsServiceMock', function () {
+  afterEach(function() {
+    // Remove the AWS SQS mock(s) for cleaner testing
+    deleteAwsMock('SQS', 'sendMessage');
+    deleteAwsMock('S3', 'getObject');
+    deleteAwsMock('S3', 'putObject');
+  });
+
   describe('#getAwsMock @unit', function () {
     it('Should allow calledOnce assert calls on awsMock', function (done) {
       createAwsMock('S3', 'getObject', () => {
@@ -22,6 +30,11 @@ describe('#awsServiceMock', function () {
         assert.equal(getAwsMock('S3', 'getObject').calledOnce, true);
         done();
       });
+    });
+
+    it('Returns null if the requested stub does not exist', function (done) {
+      assert.equal(getAwsMock('S3', 'getObject'), null);
+      done();
     });
   });
 
@@ -53,6 +66,38 @@ describe('#awsServiceMock', function () {
         assert.equal(resp, 'hello');
         done();
       });
+    });
+  });
+
+  describe('#deleteAwsMock @unit', function () {
+    it('Should remove a mock when requested', function (done) {
+      createAwsMock('S3', 'putObject', (params, cb) => { // eslint-disable-line no-unused-vars
+        const reply = 'hello';
+        return reply;
+      });
+
+      deleteAwsMock('S3', 'putObject');
+
+      assert.equal(getAwsMock('S3', 'getObject'), null);
+      done();
+    });
+  });
+
+  describe('#processAwsRequest @unit', function () {
+    it('Should throw an error if an invalid mock is called', function (done) {
+      assert.throws(
+        function() {
+          new AWS.S3().putObject({
+            test: 'test',
+          },
+          (err, resp) => {
+            assert.equal(resp, 'hello');
+            done();
+          });
+        },
+        /No stub response for/
+      );
+      done();
     });
   });
 });
