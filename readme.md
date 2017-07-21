@@ -1,4 +1,4 @@
-# mock-aws-sinon
+# awsServiceMock
 
 A quick and simple library that lets you use [Sinon](http://sinonjs.org) stubs with [aws-sdk](https://aws.amazon.com/sdk-for-node-js/).
 
@@ -9,29 +9,25 @@ aws-sdk creates services in a weird way, so it isn't possible to do, say:
     sinon.stub(AWS.S3.prototype, "getObject").returns({
        an: "object"
     })
-    
+
 Because `AWS.S3.prototype` doesn't actually have a function called getObject. It is possible
 to just stub an instance of `new AWS.S3`, but chances are you instantiating that in your non-test
 code, and don't want to structure it weirdly just so that you can run tests properly.
 
 ### How do I use it?
 
-First, install it:
-
-    npm install mock-aws-sinon
-
 Then, rather than call `sinon.stub`, you can call this module as a function, which will return a stub. Like so:
 
-    var mockAWSSinon = require('mock-aws-sinon');
-    
-    mockAWSSinon('S3','getObject').returns({
+    const { getAwsMock, deleteAwsMock } = require('awsServiceMock');
+
+    getAwsMock('S3','getObject').returns({
         an: 'object'
     });
-    
+
     new AWS.S3().getObject({Bucket: 'test'}, function(err, response) {
         assert.equal(response.an, 'object') // true
     })
-    
+
 If you wish to use the sinon vertification helpers, you can get run the function again to retrieve the same
 stub. So instead of doing:
 
@@ -39,12 +35,8 @@ stub. So instead of doing:
 
 you write:
 
-    mockAWSSinon('S3','getObject').calledOnce()
-    
+    getAwsMock('S3','getObject').calledOnce()
+
 ### How does it actually work?
 
 It stubs out AWS.Request.send, which *is* available. That stub then returns a mock AWS.Response object with the return value you have provided. This idea was copied from [fakeaws](https://github.com/k-kinzal/fakemock), which works great except that I couldn't find a way to call verification methods on stubbed code, which this allows you to do.
-
-### _Does_ it work?
-
-I think so? It's a very quick project I'm using in literally two or three tests, so I wouldn't say it is thoroughly tested. If you try it and run into problems let me know.

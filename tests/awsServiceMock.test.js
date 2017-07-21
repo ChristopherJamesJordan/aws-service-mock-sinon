@@ -1,7 +1,7 @@
 /**
  * MockAWSSinon Module tests
  */
-const { getAwsMock } = require('../index');
+const { getAwsMock } = require('../awsServiceMock');
 const AWS = require('aws-sdk');
 const assert = require('assert');
 
