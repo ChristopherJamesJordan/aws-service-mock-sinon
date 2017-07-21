@@ -103,6 +103,7 @@ const deleteAwsMock = function (service, method) { // eslint-disable-line func-n
 
   if (cachedStubs[stubKey]) {
     cachedStubs[stubKey].restore();
+    delete cachedStubs[stubKey];
   }
 };
 
