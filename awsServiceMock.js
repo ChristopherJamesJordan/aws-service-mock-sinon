@@ -1,5 +1,5 @@
 /**
- * MockAWSSinon Module
+ * AWS Service Mock Module
  */
 const AWS = require('aws-sdk');
 const sinon = require('sinon');
@@ -58,12 +58,13 @@ const stubAwsRequestSend = function () { // eslint-disable-line func-names
 
 /**
  * Create an AWS mock for a service, method and callback
- * @param {string} stubKey - Key to use for cachedStubs
  * @param {string} service - AWS service name
  * @param {string} method - AWS service method name
  * @param {function} func - Callback function for mock
  */
-const createAwsMock = function (stubKey, service, method, func) { // eslint-disable-line func-names
+const createAwsMock = function (service, method, func) { // eslint-disable-line func-names
+  const stubKey = getKey(service, method);
+
   // Initialize the stub with a temporary empty fuction
   cachedStubs[stubKey] = () => {};
 
@@ -79,15 +80,10 @@ const createAwsMock = function (stubKey, service, method, func) { // eslint-disa
  * Get an AWS mock for a service and method
  * @param {string} service - AWS service name
  * @param {string} method - AWS service method name
- * @param {function} func - Callback function for mock
  * @return {Object} stub - Sinon stub for testing
  */
-const getAwsMock = function (service, method, func) { // eslint-disable-line func-names
+const getAwsMock = function (service, method) { // eslint-disable-line func-names
   const stubKey = getKey(service, method);
-
-  if (!cachedStubs[stubKey]) {
-    createAwsMock(stubKey, service, method, func);
-  }
   const stub = cachedStubs[stubKey];
 
   return stub;
@@ -114,7 +110,7 @@ const restoreAwsRequestSend = function () { // eslint-disable-line func-names
   AWS.Request.prototype.send.restore();
 };
 
-// Initialize the library
+// Initialize the library to stub the AWS send function for mocking
 stubAwsRequestSend();
 
 module.exports = {

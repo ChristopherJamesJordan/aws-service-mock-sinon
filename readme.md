@@ -16,17 +16,21 @@ code, and don't want to structure it weirdly just so that you can run tests prop
 
 ### How do I use it?
 
+#### Create Mock
+
 Then, rather than call `sinon.stub`, you can call this module as a function, which will return a stub. Like so:
 
     const { getAwsMock, deleteAwsMock } = require('awsServiceMock');
 
-    getAwsMock('S3','getObject').returns({
+    createAwsMock('S3','getObject').returns({
         an: 'object'
     });
 
     new AWS.S3().getObject({Bucket: 'test'}, function(err, response) {
         assert.equal(response.an, 'object') // true
     })
+
+#### Get Mock
 
 If you wish to use the sinon vertification helpers, you can get run the function again to retrieve the same
 stub. So instead of doing:
@@ -36,6 +40,21 @@ stub. So instead of doing:
 you write:
 
     getAwsMock('S3','getObject').calledOnce()
+
+#### Delete Mock
+
+If you need to change the callback function for a mock, you must first delete the previous mock via the following:
+
+    deleteAwsMock('S3','getObject')
+
+It is highly recommended to call this in the afterEach() method for your tests as you may experience inconsistent
+behavior otherwise.
+
+#### Clean Up
+
+To restore the standard AWS Send functionally, you should call the following:
+
+    restoreAwsRequestSend()
 
 ### How does it actually work?
 
