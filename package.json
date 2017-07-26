@@ -24,9 +24,9 @@
     ]
   },
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha tests/*",
-    "coverage-test": "node_modules/nyc/bin/nyc.js --all --reporter=html --reporter=text node_modules/mocha/bin/mocha tests/*",
-    "lint": "node_modules/eslint/bin/eslint.js ./"
+    "test": "mocha tests/*",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ./"
   },
   "repository": {
     "type": "git",
