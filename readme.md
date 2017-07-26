@@ -1,5 +1,7 @@
 [![NPM](https://nodei.co/npm/aws-service-mock-sinon.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/aws-service-mock-sinon/)
 
+[![npm version](https://badge.fury.io/js/aws-service-mock-sinon.svg)](https://badge.fury.io/js/aws-service-mock-sinon)[![Build Status](https://travis-ci.org/ChristopherJamesJordan/aws-service-mock-sinon.svg?branch=master)](https://travis-ci.org/ChristopherJamesJordan/aws-service-mock-sinon)
+
 # awsServiceMock
 
 A quick and simple library that lets you use [Sinon](http://sinonjs.org) stubs with [aws-sdk](https://aws.amazon.com/sdk-for-node-js/).
