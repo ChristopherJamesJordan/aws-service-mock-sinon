@@ -3,8 +3,7 @@
  */
 const AWS = require('aws-sdk');
 const assert = require('assert');
-const { createAwsMock,
-  getAwsMock, deleteAwsMock } = require('../awsServiceMock');
+const { createAwsMock, getAwsMock, deleteAwsMock } = require('../awsServiceMock');
 
 describe('#awsServiceMock', function () {
   afterEach(function() {
