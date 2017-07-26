@@ -27,7 +27,7 @@
   },
   "scripts": {
     "test": "mocha tests/*",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "npm run test && nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint ./"
   },
   "repository": {
