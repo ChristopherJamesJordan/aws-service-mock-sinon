@@ -1,9 +1,14 @@
 {
   "name": "aws-service-mock-sinon",
   "version": "1.1.0",
-  "description": "",
+  "description": "A Sinon-based AWS Service mocking module for NodeJS and ExpressJS",
+  "homepage": "https://github.com/christopherjamesjordan/aws-service-mock-sinon#readme",
   "main": "awsServiceMock.js",
-  "author": "",
+  "author": {
+    "name": "Christopher James Jordan",
+    "email": "email@ChristopherJamesJordan.com",
+    "url": "ChristopherJamesJordan.com"
+  },
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.54.0",
@@ -35,6 +40,5 @@
   },
   "bugs": {
     "url": "https://github.com/christopherjamesjordan/aws-service-mock-sinon/issues"
-  },
-  "homepage": "https://github.com/christopherjamesjordan/aws-service-mock-sinon#readme"
+  }
 }
