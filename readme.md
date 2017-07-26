@@ -20,13 +20,21 @@ code, and don't want to structure it weirdly just so that you can run tests prop
 
 ### How do I use it?
 
-#### Create Mock
+#### Create Mock - createAwsMock(service, method, function)
+
+##### Params
+
+service: String - name of AWS service to be mocked
+method: String - name of AWS service method to be mocked
+function: Function() - callback function to replace AWS.service.method() call
+
+##### Details
 
 Then, rather than call `sinon.stub`, you can call this module as a function, which will return a stub. Like so:
 
     const { createAwsMock } = require('awsServiceMock');
 
-    createAwsMock('S3','getObject').returns({
+    createAwsMock('S3', 'getObject').returns({
         an: 'object',
     });
 
@@ -34,9 +42,20 @@ Then, rather than call `sinon.stub`, you can call this module as a function, whi
         assert.equal(response.an, 'object'),
     });
 
-#### Get Mock
+#### Get Mock - getAwsMock(service, method)
 
-If you wish to use the sinon vertification helpers, you can get run the function again to retrieve the same
+##### Params
+
+service: String - name of AWS service to be mocked
+method: String - name of AWS service method to be mocked
+
+##### Returns
+
+awsMock: Object - Sinon Stub
+
+##### Details
+
+If you wish to use the Sinon verification helpers, you can get run the function again to retrieve the same
 stub. So instead of doing:
 
     AWS.S3.prototype.getObject.calledOnce();
@@ -47,9 +66,18 @@ you write:
 
     getAwsMock('S3','getObject').calledOnce();
 
-#### Update Mock
+#### Update Mock - updateAwsMock(service, method, function)
 
-Then, rather than call `sinon.stub`, you can call this module as a function, which will return a stub. Like so:
+##### Params
+
+service: String - name of AWS service to be mocked
+method: String - name of AWS service method to be mocked
+function: Function() - callback function to replace AWS.service.method() call
+
+##### Details
+
+If you need to replace a mock, you can now call updateAwsMock() instead of
+calling deleteAwsMock() followed by createAwsMock():
 
     const { updateAwsMock } = require('awsServiceMock');
 
@@ -61,7 +89,14 @@ Then, rather than call `sinon.stub`, you can call this module as a function, whi
         assert.equal(response.an, 'idea'),
     });
 
-#### Delete Mock
+#### Delete Mock - deleteAwsMock(service, method)
+
+##### Params
+
+service: String - name of AWS service mock to be deleted
+method: String - name of AWS service method mock to be deleted
+
+##### Details
 
 If you need to change the callback function for a mock, you must first delete the previous mock via the following:
 
@@ -69,8 +104,10 @@ If you need to change the callback function for a mock, you must first delete th
 
     deleteAwsMock('S3','getObject');
 
-It is highly recommended to call this in the afterEach() method for your tests as you may experience inconsistent
-behavior otherwise.
+It is recommended to call this in the afterEach() method for your tests as you may experience inconsistent behavior otherwise.
+
+Updated v1.1.0: You can now chose to called updateAwsMock() at the beginning of each test where you need to change
+the function callback. Both the afterEach() and updateAwsMock() approaches should solve any issues with mock collisions.
 
 #### Clean Up
 
