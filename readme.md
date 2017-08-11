@@ -104,7 +104,7 @@ If you need to change the callback function for a mock, you must first delete th
 
     deleteAwsMock('S3','getObject');
 
-It is recommended to call this in the afterEach() method for your tests as you may experience inconsistent behavior otherwise.
+It is recommended to call this in either the afterEach() method or at the end of each of your test cases as you may experience inconsistent behavior otherwise.
 
 Updated v1.1.0: You can now chose to called updateAwsMock() at the beginning of each test where you need to change
 the function callback. Both the afterEach() and updateAwsMock() approaches should solve any issues with mock collisions.
