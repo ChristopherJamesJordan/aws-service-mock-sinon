@@ -104,6 +104,20 @@ const deleteAwsMock = function (service, method) { // eslint-disable-line func-n
 };
 
 /**
+ * Replace an AWS mock for a service, method and with a new callback
+ * @param {string} service - AWS service name
+ * @param {string} method - AWS service method name
+ * @param {function} func - Callback function for mock
+ */
+const updateAwsMock = function (service, method, func) { // eslint-disable-line func-names
+  // Remove the old mock if it exists
+  deleteAwsMock(service, method, func);
+
+  // Create the new AwsMock
+  createAwsMock(service, method, func);
+};
+
+/**
  * Used restore the AWS Request send method
  */
 const restoreAwsRequestSend = function () { // eslint-disable-line func-names
@@ -117,6 +131,7 @@ module.exports = {
   stubAwsRequestSend,
   restoreAwsRequestSend,
   createAwsMock,
-  deleteAwsMock,
   getAwsMock,
+  deleteAwsMock,
+  updateAwsMock,
 };

@@ -1,20 +1,26 @@
 {
   "name": "aws-service-mock-sinon",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.1.0",
+  "description": "A Sinon-based AWS Service mocking module for NodeJS and ExpressJS",
+  "homepage": "https://github.com/christopherjamesjordan/aws-service-mock-sinon#readme",
   "main": "awsServiceMock.js",
-  "author": "",
+  "author": {
+    "name": "Christopher James Jordan",
+    "email": "email@ChristopherJamesJordan.com",
+    "url": "ChristopherJamesJordan.com"
+  },
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.54.0",
     "sinon": "^2.3.8"
   },
   "devDependencies": {
+    "coveralls": "^2.13.1",
     "eslint": "^4.0.0",
     "eslint-config-airbnb-base": "^11.2.0",
     "eslint-plugin-import": "^2.3.0",
     "mocha": "^3.4.2",
-    "nyc": "^11.0.2"
+    "nyc": "^11.0.3"
   },
   "nyc": {
     "exclude": [
@@ -24,7 +30,9 @@
     ]
   },
   "scripts": {
-    "test": "node_modules/eslint/bin/eslint.js ./ && node_modules/nyc/bin/nyc.js --all --reporter=html --reporter=text node_modules/mocha/bin/mocha tests/*"
+    "test": "mocha tests/*",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ./"
   },
   "repository": {
     "type": "git",
@@ -32,6 +40,5 @@
   },
   "bugs": {
     "url": "https://github.com/christopherjamesjordan/aws-service-mock-sinon/issues"
-  },
-  "homepage": "https://github.com/christopherjamesjordan/aws-service-mock-sinon#readme"
+  }
 }
